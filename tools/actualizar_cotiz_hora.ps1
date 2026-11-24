@@ -103,6 +103,8 @@ $oro = Get-Futuro "GC=F"
 if (-not $oro) { $oro = Get-Cache "oro" }
 $petroleo = Get-Futuro "CL=F"
 if (-not $petroleo) { $petroleo = Get-Cache "petroleo" }
+$cobre = Get-Futuro "HG=F"
+if (-not $cobre) { $cobre = Get-Cache "cobre" }
 
 function VarTxt($q) {
   if (-not $q -or $null -eq $q.variacion) { return "" }
@@ -125,6 +127,7 @@ $md = [TimeZoneInfo]::ConvertTime($ahora, $tzMd).ToString("HH:mm")
 $datoDolar = "S/ " + $(if ($dolar) { Fmt $dolar 3 } else { "-" })
 $datoOro = "US$ " + $(if ($oro) { Fmt $oro.valor 2 } else { "-" })
 $datoPet = "US$ " + $(if ($petroleo) { Fmt $petroleo.valor 2 } else { "-" })
+$datoCobre = "US$ " + $(if ($cobre) { Fmt $cobre.valor 2 } else { "-" })
 
 function Pill($q) {
   if (-not $q -or $null -eq $q.variacion) { return '' }
@@ -144,11 +147,12 @@ $icoDolar = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill
 $icoOro = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21l5-12h4l5 12"/><path d="M9 9h6"/></svg>'
 $icoPet = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"/><path d="M7 9h10"/><path d="M7 15h10"/></svg>'
 $icoHora = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>'
+$icoCobre = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18"/><path d="M5 17l2-4h10l2 4"/><path d="M8 13l1-3h6l1 3"/></svg>'
 $strip = '<div class="ae-cotiza">' + "`n" +
   '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoDolar + '<span class="ae-mercado-nombre">D' + [char]0x00F3 + 'lar</span></div><div class="ae-mercado-dato">' + $datoDolar + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Por USD</span>' + $pillDolar + '</div></div>' + "`n" +
   '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoOro + '<span class="ae-mercado-nombre">Oro</span></div><div class="ae-mercado-dato">' + $datoOro + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Onza troy</span>' + (Pill $oro) + '</div></div>' + "`n" +
   '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoPet + '<span class="ae-mercado-nombre">Petr' + [char]0x00F3 + 'leo Brent</span></div><div class="ae-mercado-dato">' + $datoPet + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Barril</span>' + (Pill $petroleo) + '</div></div>' + "`n" +
-  '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoHora + '<span class="ae-mercado-nombre">Hora internacional</span></div><div class="ae-horas"><span>Nueva York</span><b>' + $ny + '</b><span>Pek' + [char]0x00ED + 'n</span><b>' + $pk + '</b><span>Madrid</span><b>' + $md + '</b></div></div>' + "`n" +
+  '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoCobre + '<span class="ae-mercado-nombre">Cobre</span></div><div class="ae-mercado-dato">' + $datoCobre + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Por libra</span>' + (Pill $cobre) + '</div></div>' + "`n" +
   '</div>'
 
 Write-Host ("Dolar: " + $datoDolar + " | Oro: " + $datoOro + " | Petro: " + $datoPet)
