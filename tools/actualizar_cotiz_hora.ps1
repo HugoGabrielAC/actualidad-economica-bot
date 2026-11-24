@@ -315,6 +315,59 @@ if ($personajes.Count -gt 0) {
   Write-Host ("personaje actualizado: " + $infoP.nombre)
 }
 
+# --- ultimos videos (YouTube: 3 ultimos, con reproduccion en la pagina) ---
+$cid = "UC__797T08iUoP9xHyh3c7bQ"
+$vids = @()
+try {
+  $rss = (Invoke-WebRequest -Uri ("https://www.youtube.com/feeds/videos.xml?channel_id=" + $cid) -Headers $ua -TimeoutSec 60).Content
+  $entries = [regex]::Matches($rss, '<entry>([\s\S]*?)</entry>')
+  $vi = 0
+  foreach ($e in $entries) {
+    if ($vi -ge 3) { break }
+    $b = $e.Groups[1].Value
+    $vid = [regex]::Match($b, '<yt:videoId>([^<]+)<').Groups[1].Value
+    $vt = [System.Net.WebUtility]::HtmlDecode([regex]::Match($b, '<media:title>([^<]+)<').Groups[1].Value)
+    $dur = ''
+    try {
+      $vp = (Invoke-WebRequest -Uri ("https://www.youtube.com/watch?v=" + $vid) -Headers $ua -TimeoutSec 60).Content
+      $dm = [regex]::Match($vp, '"lengthSeconds":"(\d+)"')
+      if ($dm.Success) {
+        $s = [int]$dm.Groups[1].Value
+        $dur = [math]::Floor($s / 60).ToString() + ':' + ($s % 60).ToString('00')
+      }
+    } catch { }
+    $vids += ,@{ id = $vid; titulo = $vt; dur = $dur }
+    $vi++
+  }
+} catch { }
+if ($vids.Count -gt 0) {
+  $cards = ''
+  foreach ($v in $vids) {
+    $cards += '<div class="ae-video" data-id="' + $v.id + '"><div class="ae-video-thumb"><img src="https://i.ytimg.com/vi/' + $v.id + '/hqdefault.jpg" alt="" loading="lazy" /><span class="ae-video-play"><span>' + [char]0x25B6 + '</span></span>' + $(if ($v.dur) { '<span class="ae-video-dur">' + $v.dur + '</span>' } else { '' }) + '</div><div class="ae-video-title">' + (Esc $v.titulo) + '</div></div>' + "`n"
+  }
+  $videosHtml = '<div class="ae-videos">' + "`n" + '<h2 class="ae-titulo-seccion">' + [char]0x00DA + 'ltimos videos</h2>' + "`n" + '<div class="ae-videos-grid">' + "`n" + $cards + '</div>' + "`n" + '<script>document.querySelectorAll(''.ae-video'').forEach(function(v){v.addEventListener(''click'',function(){var id=v.getAttribute(''data-id'');v.innerHTML=''<iframe src="https://www.youtube-nocookie.com/embed/''+id+''?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen style="width:100%;aspect-ratio:16/9;border:0;border-radius:12px;"></iframe>'';});});</script>' + "`n" + '</div>'
+  $iv = $c.IndexOf('<div class="ae-videos">')
+  if ($iv -ge 0) {
+    $pos = $iv + '<div class="ae-videos">'.Length
+    $depth = 1
+    while ($depth -gt 0 -and $pos -lt $c.Length) {
+      $o = $c.IndexOf('<div', $pos)
+      $cl = $c.IndexOf('</div>', $pos)
+      if ($cl -lt 0) { break }
+      if ($o -ge 0 -and $o -lt $cl) { $depth++; $pos = $o + 4 }
+      else { $depth--; $pos = $cl + 6 }
+    }
+    if ($depth -eq 0) { $c = $c.Substring(0, $iv) + $videosHtml + $c.Substring($pos) }
+  } else {
+    $iua = $c.IndexOf('ltimo an')
+    if ($iua -ge 0) {
+      $h2start = $c.LastIndexOf('<h2', $iua)
+      $c = $c.Substring(0, $h2start) + $videosHtml + $c.Substring($h2start)
+    }
+  }
+  Write-Host ("videos actualizados: " + $vids.Count)
+}
+
 $cuerpo = @{ content = $c; status = "publish" }
 $json = $cuerpo | ConvertTo-Json -Depth 5 -Compress
 $resp = Invoke-RestMethod -Uri ("https://" + $domain + "/wp-json/wp/v2/pages/472") -Method Post -Headers $headers -Body ([Text.Encoding]::UTF8.GetBytes($json)) -TimeoutSec 90
