@@ -214,8 +214,28 @@ try {
   }
 } catch { }
 if ($banca.Count -gt 0) {
-  $dia = (Get-Date).DayOfYear
-  $q = $banca[($dia - 1) % $banca.Count]
+  # eleccion aleatoria sin repetir hasta agotar el banco (estado guardado en web/portada/datos)
+  $rutaEstado = Join-Path $base "web\portada\datos\preguntas_usadas.json"
+  $usadas = @()
+  try {
+    if (Test-Path $rutaEstado) {
+      $st = Get-Content $rutaEstado -Raw -Encoding UTF8 | ConvertFrom-Json
+      foreach ($x in @($st.usadas)) { if ($null -ne $x) { $usadas += [int]$x } }
+    }
+  } catch { $usadas = @() }
+  $usadas = @($usadas | Where-Object { $_ -ge 0 -and $_ -lt $banca.Count } | Select-Object -Unique)
+  if ($usadas.Count -ge $banca.Count) { $usadas = @() }
+  $disponibles = @(0..($banca.Count - 1) | Where-Object { $usadas -notcontains $_ })
+  if ($disponibles.Count -eq 0) { $disponibles = @(0..($banca.Count - 1)) }
+  $idxPreg = $disponibles[(Get-Random -Minimum 0 -Maximum $disponibles.Count)]
+  $q = $banca[$idxPreg]
+  $usadas += $idxPreg
+  try {
+    $dirDatos = Split-Path -Parent $rutaEstado
+    if (-not (Test-Path $dirDatos)) { New-Item -ItemType Directory -Path $dirDatos -Force | Out-Null }
+    [IO.File]::WriteAllText($rutaEstado, (@{ usadas = @($usadas) } | ConvertTo-Json -Compress), (New-Object Text.UTF8Encoding($false)))
+    Write-Host ("pregunta: indice " + $idxPreg + " | mostradas " + $usadas.Count + " de " + $banca.Count)
+  } catch { Write-Host ("no se pudo guardar el estado de preguntas: " + $_.Exception.Message) }
   $idB = "ae-preg-1"
   $textoExplic = $q[6].Replace("'", " ")
   $js = @'
