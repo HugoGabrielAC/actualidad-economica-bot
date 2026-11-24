@@ -17,10 +17,10 @@ jobs:
         env:
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
         run: pwsh -NoProfile -ExecutionPolicy Bypass -File ./tools/actualizar_cotiz_hora.ps1
-      - name: Guardar estado del dólar
+      - name: Guardar estado del dólar y de las preguntas
         run: |
           git config user.name "actualidad-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add web/portada/datos/divisa_dia.json
-          git diff --cached --quiet || git commit -m "estado dolar"
+          git add web/portada/datos
+          git diff --cached --quiet || git commit -m "estado dolar y preguntas"
           git push
