@@ -313,8 +313,7 @@ if ($personajes.Count -gt 0) {
   if ($imgPj -and $imgPj.Contains('upload.wikimedia.org')) { $imgPj = $imgPj.Replace('upload.wikimedia.org', 'thumb.wikimedia.org') }
   if ($imgPj) { $cardPj += '<img src="' + (Esc $imgPj) + '" alt="' + (Esc $infoP.nombre) + '" style="width:100%;max-width:180px;float:left;margin:0 14px 8px 0;border-radius:8px;" />' + "`n" }
   $cardPj += '<div style="font-family:Georgia,''Times New Roman'',serif;font-size:20px;font-weight:700;line-height:1.25;">' + (Esc $infoP.nombre) + '</div>' + "`n" +
-    '<p style="font-size:14px;color:#333333;margin:6px 0 4px;">' + (Esc $pj[2]) + '</p>' + "`n" +
-    '<a href="' + (Esc $infoP.url) + '" target="_blank" rel="noopener" style="color:#66C96D;font-weight:600;font-size:14px;">Conoce su historia ' + [char]0x2192 + '</a>' + "`n" +
+    '<p style="font-size:14px;color:#333333;margin:6px 0 4px;">' + (Esc $pj[2]) + ' <a href="' + (Esc $infoP.url) + '" target="_blank" rel="noopener" style="color:#66C96D;font-weight:600;font-size:14px;">Conoce su historia ' + [char]0x2192 + '</a></p>' + "`n" +
     '</div>'
   $c = Replace-Tarjeta $c 'Personaje del d' $cardPj
   Write-Host ("personaje actualizado: " + $infoP.nombre)
