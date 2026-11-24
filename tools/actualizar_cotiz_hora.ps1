@@ -151,8 +151,8 @@ $icoCobre = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill
 $strip = '<div class="ae-cotiza">' + "`n" +
   '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoDolar + '<span class="ae-mercado-nombre">D' + [char]0x00F3 + 'lar</span></div><div class="ae-mercado-dato">' + $datoDolar + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Por USD</span>' + $pillDolar + '</div></div>' + "`n" +
   '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoOro + '<span class="ae-mercado-nombre">Oro</span></div><div class="ae-mercado-dato">' + $datoOro + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Onza troy</span>' + (Pill $oro) + '</div></div>' + "`n" +
-  '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoPet + '<span class="ae-mercado-nombre">Petr' + [char]0x00F3 + 'leo Brent</span></div><div class="ae-mercado-dato">' + $datoPet + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Barril</span>' + (Pill $petroleo) + '</div></div>' + "`n" +
   '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoCobre + '<span class="ae-mercado-nombre">Cobre</span></div><div class="ae-mercado-dato">' + $datoCobre + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Por libra</span>' + (Pill $cobre) + '</div></div>' + "`n" +
+  '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoPet + '<span class="ae-mercado-nombre">Petr' + [char]0x00F3 + 'leo Brent</span></div><div class="ae-mercado-dato">' + $datoPet + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Barril</span>' + (Pill $petroleo) + '</div></div>' + "`n" +
   '</div>'
 
 Write-Host ("Dolar: " + $datoDolar + " | Oro: " + $datoOro + " | Petro: " + $datoPet)
