@@ -39,10 +39,11 @@ function Replace-Tarjeta([string]$html, [string]$h3Prefijo, [string]$nuevo) {
 
 # --- Dólar (PEN) ---
 $dolar = $null
+$dolarPrev = $null
 try {
   $div = Get-Content (Join-Path $base "web\divisas\datos\divisas.json") -Raw -Encoding UTF8 | ConvertFrom-Json
   $p = $div.principales | Where-Object { $_.c -eq "PEN" }
-  if ($p) { $dolar = [double]$p.r }
+  if ($p) { $dolar = [double]$p.r; if ($p.p) { $dolarPrev = [double]$p.p } }
 } catch { }
 if (-not $dolar) {
   try {
@@ -50,6 +51,8 @@ if (-not $dolar) {
     $dolar = [double]$er.rates.PEN
   } catch { }
 }
+$varDolar = $null
+if ($dolar -and $dolarPrev -and $dolarPrev -ne 0) { $varDolar = ($dolar - $dolarPrev) / $dolarPrev * 100 }
 
 # --- Oro y Petróleo (Yahoo futures, con respaldo del cache) ---
 function Get-Futuro([string]$simbolo) {
@@ -100,15 +103,34 @@ $ny = [TimeZoneInfo]::ConvertTime($ahora, $tzNy).ToString("HH:mm")
 $pk = [TimeZoneInfo]::ConvertTime($ahora, $tzPk).ToString("HH:mm")
 $md = [TimeZoneInfo]::ConvertTime($ahora, $tzMd).ToString("HH:mm")
 
-# --- strip nuevo ---
+# --- strip nuevo (Mercados de hoy: tarjetas con icono y variación) ---
 $datoDolar = "S/ " + $(if ($dolar) { Fmt $dolar 3 } else { "-" })
-$datoOro = "US$ " + $(if ($oro) { Fmt $oro.valor 2 + (VarTxt $oro) } else { "-" })
-$datoPet = "US$ " + $(if ($petroleo) { Fmt $petroleo.valor 2 + (VarTxt $petroleo) } else { "-" })
+$datoOro = "US$ " + $(if ($oro) { Fmt $oro.valor 2 } else { "-" })
+$datoPet = "US$ " + $(if ($petroleo) { Fmt $petroleo.valor 2 } else { "-" })
+
+function Pill($q) {
+  if (-not $q -or $null -eq $q.variacion) { return '' }
+  $v = [double]$q.variacion
+  $flecha = [char]0x2193
+  if ($v -ge 0) { $flecha = [char]0x2191 }
+  $signo = ""
+  if ($v -ge 0) { $signo = "+" }
+  return '<span class="ae-pill">' + $flecha + ' ' + $signo + (Fmt $v 2) + '%</span>'
+}
+$pillDolar = ''
+if ($null -ne $varDolar) {
+  $pq = [pscustomobject]@{ variacion = [double]$varDolar }
+  $pillDolar = Pill $pq
+}
+$icoDolar = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="21 7 15 7 21 13"/></svg>'
+$icoOro = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21l5-12h4l5 12"/><path d="M9 9h6"/></svg>'
+$icoPet = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"/><path d="M7 9h10"/><path d="M7 15h10"/></svg>'
+$icoHora = '<svg class="ae-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>'
 $strip = '<div class="ae-cotiza">' + "`n" +
-  '<div><div class="etiqueta">D' + [char]0x00F3 + 'lar</div><div class="dato">' + $datoDolar + '</div><div class="nota">Por USD</div><p style="margin:8px 0 0;"><a class="ae-boton" href="https://' + $domain + '/conversor-de-divisas/">Convertir</a></p></div>' + "`n" +
-  '<div><div class="etiqueta">Oro</div><div class="dato">' + $datoOro + '</div><div class="nota">Onza troy</div></div>' + "`n" +
-  '<div><div class="etiqueta">Petr' + [char]0x00F3 + 'leo Brent</div><div class="dato">' + $datoPet + '</div><div class="nota">Barril</div></div>' + "`n" +
-  '<div><div class="etiqueta">Hora internacional</div><div style="font-size:15px;line-height:1.5;margin-top:4px;">Nueva York ' + $ny + '<br />Pekin ' + $pk + '<br />Madrid ' + $md + '</div><div class="nota">Hora de referencia</div></div>' + "`n" +
+  '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoDolar + '<span class="ae-mercado-nombre">D' + [char]0x00F3 + 'lar</span></div><div class="ae-mercado-dato">' + $datoDolar + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Por USD</span>' + $pillDolar + '</div></div>' + "`n" +
+  '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoOro + '<span class="ae-mercado-nombre">Oro</span></div><div class="ae-mercado-dato">' + $datoOro + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Onza troy</span>' + (Pill $oro) + '</div></div>' + "`n" +
+  '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoPet + '<span class="ae-mercado-nombre">Petr' + [char]0x00F3 + 'leo Brent</span></div><div class="ae-mercado-dato">' + $datoPet + '</div><div class="ae-mercado-pie"><span class="ae-mercado-nota">Barril</span>' + (Pill $petroleo) + '</div></div>' + "`n" +
+  '<div class="ae-mercado"><div class="ae-mercado-cab">' + $icoHora + '<span class="ae-mercado-nombre">Hora internacional</span></div><div class="ae-horas"><span>Nueva York</span><b>' + $ny + '</b><span>Pek' + [char]0x00ED + 'n</span><b>' + $pk + '</b><span>Madrid</span><b>' + $md + '</b></div></div>' + "`n" +
   '</div>'
 
 Write-Host ("Dolar: " + $datoDolar + " | Oro: " + $datoOro + " | Petro: " + $datoPet)
