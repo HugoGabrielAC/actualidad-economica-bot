@@ -197,6 +197,9 @@ if ($j -ge 0) {
 }
 
 # --- pregunta del dia: una sola, rotando por dia del ano (banco amplio) ---
+$icoPreg = '<svg class="ae-ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.2a2.8 2.8 0 1 1 4.6 2.3c-.8.6-1.2 1.1-1.2 2.1"/><circle cx="12" cy="17.2" r=".4" fill="#1B5E20"/></svg>'
+$icoPj = '<svg class="ae-ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>'
+$icoFrase = '<svg class="ae-ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 7H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h3v2a3 3 0 0 1-3 3"/><path d="M20 7h-5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h3v2a3 3 0 0 1-3 3"/></svg>'
 $banca = @()
 try {
   $lineas = Get-Content (Join-Path $base "web\bancos\preguntas.txt") -Encoding UTF8
@@ -215,7 +218,7 @@ if ($banca.Count -gt 0) {
 document.querySelectorAll('.ae-opcion').forEach(function(b){b.addEventListener('click',function(){var bloque=b.getAttribute('data-bloque');var txt=document.getElementById(bloque);document.querySelectorAll('.ae-opcion[data-bloque=' + bloque + ']').forEach(function(x){x.style.background='';x.style.color=''});if(bloque==='__ID__'){if(parseInt(b.getAttribute('data-respuesta'),10)===__C__){b.style.background='#66C96D';b.style.color='#FFFFFF';txt.textContent='__T__';}else{txt.textContent='No es esa. Vuelve a intentarlo.';}}})});
 '@
   $js = $js.Replace("__ID__", $idB).Replace("__C__", [string][int]$q[5]).Replace("__T__", $textoExplic)
-  $card = '<div class="ae-tarjeta"><h3>Pregunta del d' + [char]0x00ED + 'a</h3>' + "`n" +
+  $card = '<div class="ae-tarjeta"><h3>' + $icoPreg + 'Pregunta del d' + [char]0x00ED + 'a</h3>' + "`n" +
     '<p style="font-family:Georgia,''Times New Roman'',serif;font-size:18px;margin:0 0 10px;"><span style="color:#66C96D;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:5px;">Pregunta 1</span>' + $q[1] + '</p>' + "`n" +
     '<p><button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="0">A. ' + $q[2] + '</button><br />' + "`n" +
     '<button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="1">B. ' + $q[3] + '</button><br />' + "`n" +
@@ -250,7 +253,7 @@ try {
 } catch { }
 if ($frases.Count -gt 0) {
   $fr = $frases[((Get-Date).DayOfYear - 1) % $frases.Count]
-  $cardFrase = '<div class="ae-tarjeta"><h3>Frase del d' + [char]0x00ED + 'a</h3>' + "`n" +
+  $cardFrase = '<div class="ae-tarjeta"><h3>' + $icoFrase + 'Frase del d' + [char]0x00ED + 'a</h3>' + "`n" +
     '<div style="font-family:Georgia,''Times New Roman'',serif;font-style:italic;font-size:22px;line-height:1.35;margin:2px 0 4px;">' + (Esc $fr[0]) + '</div>' + "`n" +
     '<div style="font-weight:700;margin-top:10px;font-size:16px;">' + (Esc $fr[1]) + '</div>' + "`n" +
     '<div style="font-size:13px;color:#777777;font-style:italic;margin:2px 0 14px;">' + (Esc $fr[3]) + '</div>' + "`n" +
@@ -301,7 +304,7 @@ if ($personajes.Count -gt 0) {
       $infoP = [pscustomobject]@{ titulo = $tituloP; nombre = $tituloP; extracto = $pj[2]; imagen = $null; url = "https://es.wikipedia.org/wiki/" + [uri]::EscapeDataString($tituloP) }
     }
   }
-  $cardPj = '<div class="ae-tarjeta"><h3>Personaje del d' + [char]0x00ED + 'a</h3>' + "`n"
+  $cardPj = '<div class="ae-tarjeta"><h3>' + $icoPj + 'Personaje del d' + [char]0x00ED + 'a</h3>' + "`n"
   if ($infoP.imagen) { $cardPj += '<img src="' + (Esc $infoP.imagen) + '" alt="' + (Esc $infoP.nombre) + '" style="width:100%;max-width:260px;float:left;margin:0 14px 8px 0;border-radius:2px;" />' + "`n" }
   $cardPj += '<div style="font-family:Georgia,''Times New Roman'',serif;font-size:20px;font-weight:700;line-height:1.25;">' + (Esc $infoP.nombre) + '</div>' + "`n" +
     '<div style="font-style:italic;color:#555555;font-size:15px;margin:2px 0 8px;">' + (Esc $pj[1]) + '</div>' + "`n" +
