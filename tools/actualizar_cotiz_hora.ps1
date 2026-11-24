@@ -415,3 +415,22 @@ $cuerpo = @{ content = $c; status = "publish" }
 $json = $cuerpo | ConvertTo-Json -Depth 5 -Compress
 $resp = Invoke-RestMethod -Uri ("https://" + $domain + "/wp-json/wp/v2/pages/472") -Method Post -Headers $headers -Body ([Text.Encoding]::UTF8.GetBytes($json)) -TimeoutSec 90
 Write-Host ("Publicado: {0}" -f $resp.link)
+
+# --- imagen de respaldo por categoria (solo articulos recientes sin imagen) ---
+$mapaImagen = @{ 11991990 = 74; 316236 = 199; 11992033 = 170; 11992026 = 277 }
+$imgDefecto = 74
+try {
+  $recientes = Invoke-RestMethod -Uri ("https://" + $domain + "/wp-json/wp/v2/posts?per_page=20&status=publish&orderby=date&order=desc") -Headers $headers -TimeoutSec 60
+  $nImg = 0
+  foreach ($po in @($recientes)) {
+    if ([int]$po.featured_media -ne 0) { continue }
+    $elegida = 0
+    foreach ($cat in @($po.categories)) { if ($mapaImagen.ContainsKey([int]$cat)) { $elegida = $mapaImagen[[int]$cat]; break } }
+    if ($elegida -eq 0) { $elegida = $imgDefecto }
+    $b = @{ featured_media = $elegida } | ConvertTo-Json -Compress
+    Invoke-RestMethod -Uri ("https://" + $domain + "/wp-json/wp/v2/posts/" + $po.id) -Method Post -Headers $headers -Body ([Text.Encoding]::UTF8.GetBytes($b)) -TimeoutSec 60 | Out-Null
+    Write-Host ("imagen de respaldo " + $elegida + " asignada al post " + $po.id)
+    $nImg++
+  }
+  if ($nImg -eq 0) { Write-Host "sin articulos pendientes de imagen" }
+} catch { Write-Host ("aviso imagen de respaldo: " + $_.Exception.Message) }
