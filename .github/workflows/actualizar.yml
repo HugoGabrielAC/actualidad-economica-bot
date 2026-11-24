@@ -1,0 +1,16 @@
+name: Actualizar portada
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  actualizar:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Actualizar cotizaciones, fecha, pregunta, frase y personaje
+        env:
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: pwsh -NoProfile -ExecutionPolicy Bypass -File ./tools/actualizar_cotiz_hora.ps1
