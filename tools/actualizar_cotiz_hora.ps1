@@ -116,7 +116,7 @@ Write-Host ("Hora: NY " + $ny + " / Pekin " + $pk + " / Madrid " + $md)
 
 # --- WP: reemplazar el strip y la fecha ---
 $usuario = $env:WP_USER
-if (-not $usuario) { $usuario = "hugobrielac" }
+if (-not $usuario) { $usuario = "hugogabrielac" }
 if (Test-Path (Join-Path $base ".secrets\wordpress_usuario.txt")) {
   $u = ([IO.File]::ReadAllText((Join-Path $base ".secrets\wordpress_usuario.txt"))).Trim()
   if ($u) { $usuario = $u }
