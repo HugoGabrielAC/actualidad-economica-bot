@@ -224,8 +224,8 @@ document.querySelectorAll('.ae-opcion').forEach(function(b){b.addEventListener('
   $js = $js.Replace("__ID__", $idB).Replace("__C__", [string][int]$q[5]).Replace("__T__", $textoExplic)
   $card = '<div class="ae-tarjeta"><h3>' + $icoPreg + 'Pregunta del d' + [char]0x00ED + 'a</h3>' + "`n" +
     '<p style="font-family:Georgia,''Times New Roman'',serif;font-size:18px;margin:0 0 10px;">' + $q[1] + '</p>' + "`n" +
-    '<p><button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="0">A. ' + $q[2] + '</button><br />' + "`n" +
-    '<button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="1">B. ' + $q[3] + '</button><br />' + "`n" +
+    '<p><button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="0">A. ' + $q[2] + '</button>' + "`n" +
+    '<button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="1">B. ' + $q[3] + '</button>' + "`n" +
     '<button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="2">C. ' + $q[4] + '</button></p>' + "`n" +
     '<p id="' + $idB + '" style="font-size:14px;color:#555555;font-style:italic;margin:8px 0 0;"></p>' + "`n" +
     '<p><script>' + $js + '</script></p>' + "`n" +
