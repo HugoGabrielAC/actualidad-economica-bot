@@ -130,10 +130,10 @@ function Pill($q) {
   if (-not $q -or $null -eq $q.variacion) { return '' }
   $v = [double]$q.variacion
   $flecha = [char]0x2193
-  if ($v -ge 0) { $flecha = [char]0x2191 }
   $signo = ""
-  if ($v -ge 0) { $signo = "+" }
-  return '<span class="ae-pill">' + $flecha + ' ' + $signo + (Fmt $v 2) + '%</span>'
+  $clase = "ae-pill down"
+  if ($v -ge 0) { $flecha = [char]0x2191; $signo = "+"; $clase = "ae-pill up" }
+  return '<span class="' + $clase + '">' + $flecha + ' ' + $signo + (Fmt $v 2) + '%</span>'
 }
 $pillDolar = ''
 if ($null -ne $varDolar) {
@@ -305,7 +305,9 @@ if ($personajes.Count -gt 0) {
     }
   }
   $cardPj = '<div class="ae-tarjeta"><h3>' + $icoPj + 'Personaje del d' + [char]0x00ED + 'a</h3>' + "`n"
-  if ($infoP.imagen) { $cardPj += '<img src="' + (Esc $infoP.imagen) + '" alt="' + (Esc $infoP.nombre) + '" style="width:100%;max-width:260px;float:left;margin:0 14px 8px 0;border-radius:2px;" />' + "`n" }
+  $imgPj = [string]$infoP.imagen
+  if ($imgPj -and $imgPj.Contains('upload.wikimedia.org')) { $imgPj = $imgPj.Replace('upload.wikimedia.org', 'thumb.wikimedia.org') }
+  if ($imgPj) { $cardPj += '<img src="' + (Esc $imgPj) + '" alt="' + (Esc $infoP.nombre) + '" style="width:100%;max-width:180px;float:left;margin:0 14px 8px 0;border-radius:8px;" />' + "`n" }
   $cardPj += '<div style="font-family:Georgia,''Times New Roman'',serif;font-size:20px;font-weight:700;line-height:1.25;">' + (Esc $infoP.nombre) + '</div>' + "`n" +
     '<div style="font-style:italic;color:#555555;font-size:15px;margin:2px 0 8px;">' + (Esc $pj[1]) + '</div>' + "`n" +
     '<p style="font-size:14px;color:#333333;margin:0 0 10px;">' + (Esc $pj[2]) + '</p>' + "`n" +
