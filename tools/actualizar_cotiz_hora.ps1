@@ -43,7 +43,7 @@ $dolarPrev = $null
 try {
   $div = Get-Content (Join-Path $base "web\divisas\datos\divisas.json") -Raw -Encoding UTF8 | ConvertFrom-Json
   $p = $div.principales | Where-Object { $_.c -eq "PEN" }
-  if ($p) { $dolar = [double]$p.r; if ($p.p) { $dolarPrev = [double]$p.p } }
+  if ($p) { $dolar = [double](@($p.r)[0]); if (@($p.p).Count -gt 0) { $dolarPrev = [double](@($p.p)[0]) } }
 } catch { }
 if (-not $dolar) {
   try {
@@ -53,6 +53,24 @@ if (-not $dolar) {
 }
 $varDolar = $null
 if ($dolar -and $dolarPrev -and $dolarPrev -ne 0) { $varDolar = ($dolar - $dolarPrev) / $dolarPrev * 100 }
+if ($null -eq $varDolar) {
+  $estadoRuta = Join-Path $base "web\portada\datos\divisa_dia.json"
+  New-Item -ItemType Directory -Force -Path (Split-Path -Parent $estadoRuta) | Out-Null
+  $hoyIso = (Get-Date).ToString("yyyy-MM-dd")
+  try {
+    if (Test-Path $estadoRuta) {
+      $est = Get-Content $estadoRuta -Raw -Encoding UTF8 | ConvertFrom-Json
+      if ($est.fecha -ne $hoyIso -and $est.PEN) {
+        $dolarPrev = [double]$est.PEN
+        if ($dolar -and $dolarPrev -ne 0) { $varDolar = ($dolar - $dolarPrev) / $dolarPrev * 100 }
+      }
+    }
+  } catch { }
+  if ($dolar) {
+    $nuevo = @{ fecha = $hoyIso; PEN = $dolar } | ConvertTo-Json
+    Set-Content $estadoRuta -Value $nuevo -Encoding UTF8
+  }
+}
 
 # --- Oro y Petróleo (Yahoo futures, con respaldo del cache) ---
 function Get-Futuro([string]$simbolo) {
