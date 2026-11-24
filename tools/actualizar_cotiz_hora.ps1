@@ -227,7 +227,7 @@ document.querySelectorAll('.ae-opcion').forEach(function(b){b.addEventListener('
     '<p><button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="0">A. ' + $q[2] + '</button><br />' + "`n" +
     '<button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="1">B. ' + $q[3] + '</button><br />' + "`n" +
     '<button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="2">C. ' + $q[4] + '</button></p>' + "`n" +
-    '<p id="' + $idB + '" style="font-size:14px;color:#555555;font-style:italic;margin:8px 0 0;">Elige una opci' + [char]0x00F3 + 'n y descubre la explicaci' + [char]0x00F3 + 'n.</p>' + "`n" +
+    '<p id="' + $idB + '" style="font-size:14px;color:#555555;font-style:italic;margin:8px 0 0;"></p>' + "`n" +
     '<p><script>' + $js + '</script></p>' + "`n" +
     '</div>'
   $k = $c.IndexOf('<div class="ae-tarjeta">')
