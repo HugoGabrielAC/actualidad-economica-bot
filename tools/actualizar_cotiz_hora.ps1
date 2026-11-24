@@ -219,7 +219,7 @@ document.querySelectorAll('.ae-opcion').forEach(function(b){b.addEventListener('
 '@
   $js = $js.Replace("__ID__", $idB).Replace("__C__", [string][int]$q[5]).Replace("__T__", $textoExplic)
   $card = '<div class="ae-tarjeta"><h3>' + $icoPreg + 'Pregunta del d' + [char]0x00ED + 'a</h3>' + "`n" +
-    '<p style="font-family:Georgia,''Times New Roman'',serif;font-size:18px;margin:0 0 10px;"><span style="color:#66C96D;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:5px;">Pregunta 1</span>' + $q[1] + '</p>' + "`n" +
+    '<p style="font-family:Georgia,''Times New Roman'',serif;font-size:18px;margin:0 0 10px;">' + $q[1] + '</p>' + "`n" +
     '<p><button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="0">A. ' + $q[2] + '</button><br />' + "`n" +
     '<button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="1">B. ' + $q[3] + '</button><br />' + "`n" +
     '<button class="ae-opcion" data-bloque="' + $idB + '" data-respuesta="2">C. ' + $q[4] + '</button></p>' + "`n" +
