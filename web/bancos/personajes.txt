@@ -1,0 +1,39 @@
+Adam Smith|Economía|Escribió la riqueza de las naciones y fijó el origen del análisis de la ventaja comparativa y del mercado como mecanismo de coordinación.
+David Ricardo|Economía|Formuló la ventaja comparativa, la base de todo el argumento del comercio exterior que sigue vigente.
+John Maynard Keynes|Economía|Llevó el análisis del Estado a su forma moderna con la fiscalidad keynesiana y el papel de las expectativas.
+Friedrich Hayek|Economía|Explicó el papel de los precios y del conocimiento disperso en el funcionamiento de la sociedad.
+Milton Friedman|Economía|Defendió la regla fiscal y.currency la monetary como variable central de la política económica.
+Joseph Schumpeter|Economía|El crecimiento como destructivo creativo, la explicación del Entrepreneurship empresarial.
+Douglas North|Economía e instituciones|Foundó el enfoque institucional del desarrollo económico.
+Elinor Ostrom|Instituciones|Sus trabajos sobre los bienes comunes cambiaron el debate sobre el Estado y el mercado.
+Amartya Sen|Bienestar|Criticó que la pobreza se mida solo por el ingreso y propuso la capacidad de las personas como criterio.
+Herbert Simon|Decisiones|Sentó las bases de la racionalidad limitada que explica casi toda la economía conductual.
+Ronald Coase|Economía industrial|Explicó por qué existen las empresas a partir del costo de transacción.
+Oliver Williamson|Instituciones|Desarrolló la economía de costos de transacción y la elección institucional.
+Kenneth Arrow|Economía|Formuló el teorema de imposibilidad de los sistemas de votación, segun el cual ningun sistema de decision colectiva cumple a la vez la participacion de todos y la decision razonable.
+Paul Samuelson|Economía pública|Definió los bienes públicos puros y el método keynesiano en la finanzas públicas.
+Richard Thaler|Conducta|Aplicó la economía experimental a las políticas públicas y a las decisiones de ahorro.
+Albert Hirschman|Desarrollo económico|Formuló el desarrollo como proceso de causación acumulativa.
+Raúl Prebisch|Economía del desarrollo|Criticó el carácter automático del comercio exterior como motor de desarrollo.
+Celso Furtado|Desarrollo económico|Sentó las bases del pensamiento latinoamericano sobre la dependencia.
+Jagdish Bhagwati|Comercio internacional|Distinguó creación de comercio y desvío de comercio en las uniones aduaneras.
+Dani Rodrik|Economía política|Mostró los límites de las recetas estándar al analizar la(globalización).
+Ha-Joon Chang|Desarrollo|Puso nombre a las estrategias de desarrollo industrial que usan los países emergentes.
+Joseph Stiglitz|Economía|Criticó el Consenso de Washington desde el lado de las reglas del juego.
+Daron Acemoglu|Economía política|Autor con Robinson de Por qué fracasan las naciones, sobre el papel de las instituciones.
+Thomas Piketty|Economía y desigualdad|Documentó la concentración de la renta en los países ricos.
+Angus Deaton|Microeconomía y desarrollo|Estudió la diferencia entre el crecimiento agregado y el bienestar de la gente.
+Simon Kuznets|Economía del desarrollo|Estudió la desigualdad y la transforma estructural de las economías.
+W. Arthur Lewis|Economía del desarrollo|Formuló el modelo de dualidad entre el sector tradicional y el moderno.
+Michael Porter|Estrategia|Exploró por qué un país tieneCompetitive advantage en una industria concreta.
+Harold Hotelling|Economía espacial|Analizó la competencia y el comercio en el espacio, base de la economía regional.
+John von Neumann|Matemáticas y economía|Fundó la teoría de los juegos aplicada a la economía.
+John Bates Clark|Distribución|Desarrolló el margen de incidencia del impuesto y la teoría del capital.
+Irving Fisher|Economía|Analizó la relación entre tipos de interés, dinero y nivel de precios.
+Fritz Machlup|Economía|Estudió el conocimiento y sus efectos sobre el desarrollo económico.
+Wolfgang Stolper|Economía del desarrollo|Escribió con Paul Samuelson sobre los precios de los factores y el comercio.
+Jan Tinbergen|Economía y desarrollo|Pionero de los modelos multilineales aplicados al comercio exterior.
+Alfred Marshall|Economía|Formuló la teoría del excedente del productor y el equilibrio Marshalliano.
+Vilfredo Pareto|Economía y sociología|Formuló el criterio deOptimalidad social y la distribución del ingreso.
+Werner Sombart|Economía y sociología|Desarrolló la teoría del entrepreneurship y del capitalismo.
+Amartya Sen|Capacidades|Redefinió la medición de la pobreza con el enfoque de capacidades, en lugar de la renta.
