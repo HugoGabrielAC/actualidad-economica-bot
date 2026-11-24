@@ -276,7 +276,26 @@ try {
   }
 } catch { }
 if ($frases.Count -gt 0) {
-  $fr = $frases[((Get-Date).DayOfYear - 1) % $frases.Count]
+  # eleccion aleatoria sin repetir hasta agotar el banco
+  $rutaEstadoF = Join-Path $base "web\portada\datos\frases_usadas.json"
+  $usadasF = @()
+  try {
+    if (Test-Path $rutaEstadoF) {
+      $stF = Get-Content $rutaEstadoF -Raw -Encoding UTF8 | ConvertFrom-Json
+      foreach ($x in @($stF.usadas)) { if ($null -ne $x) { $usadasF += [int]$x } }
+    }
+  } catch { $usadasF = @() }
+  $usadasF = @($usadasF | Where-Object { $_ -ge 0 -and $_ -lt $frases.Count } | Select-Object -Unique)
+  if ($usadasF.Count -ge $frases.Count) { $usadasF = @() }
+  $disponiblesF = @(0..($frases.Count - 1) | Where-Object { $usadasF -notcontains $_ })
+  if ($disponiblesF.Count -eq 0) { $disponiblesF = @(0..($frases.Count - 1)) }
+  $idxF = $disponiblesF[(Get-Random -Minimum 0 -Maximum $disponiblesF.Count)]
+  $fr = $frases[$idxF]
+  $usadasF += $idxF
+  try {
+    [IO.File]::WriteAllText($rutaEstadoF, (@{ usadas = @($usadasF) } | ConvertTo-Json -Compress), (New-Object Text.UTF8Encoding($false)))
+    Write-Host ("frase: indice " + $idxF + " | mostradas " + $usadasF.Count + " de " + $frases.Count)
+  } catch { Write-Host ("no se pudo guardar el estado de frases: " + $_.Exception.Message) }
   $cardFrase = '<div class="ae-tarjeta"><h3>' + $icoFrase + 'Frase del d' + [char]0x00ED + 'a</h3>' + "`n" +
     '<div style="font-family:Georgia,''Times New Roman'',serif;font-style:italic;font-size:22px;line-height:1.35;margin:2px 0 4px;">' + (Esc $fr[0]) + '</div>' + "`n" +
     '<div style="font-weight:700;margin-top:10px;font-size:16px;">' + (Esc $fr[1]) + '</div>' + "`n" +
