@@ -20,7 +20,7 @@ function Replace-Tarjeta([string]$html, [string]$h3Prefijo, [string]$nuevo) {
     $k = $html.IndexOf('<div class="ae-tarjeta">', $pos)
     if ($k -lt 0) { return $html }
     $h = $html.IndexOf($h3Prefijo, $k)
-    if ($h -ge 0 -and ($h - $k) -lt 80) {
+    if ($h -ge 0 -and ($h - $k) -lt 400) {
       $p = $k + '<div class="ae-tarjeta">'.Length
       $depth = 1
       while ($depth -gt 0 -and $p -lt $html.Length) {
@@ -229,8 +229,8 @@ document.querySelectorAll('.ae-opcion').forEach(function(b){b.addEventListener('
   $k = $c.IndexOf('<div class="ae-tarjeta">')
   $found = -1
   while ($k -ge 0) {
-    $next = $c.IndexOf('<h3>Pregunta del d', $k)
-    if ($next -ge 0 -and ($next - $k) -lt 60) { $found = $k; break }
+    $next = $c.IndexOf('Pregunta del d', $k)
+    if ($next -ge 0 -and ($next - $k) -lt 400) { $found = $k; break }
     $k = $c.IndexOf('<div class="ae-tarjeta">', $k + 1)
   }
   if ($found -ge 0) {
@@ -259,7 +259,7 @@ if ($frases.Count -gt 0) {
     '<div style="font-size:13px;color:#777777;font-style:italic;margin:2px 0 14px;">' + (Esc $fr[3]) + '</div>' + "`n" +
     '<div style="font-size:15px;color:#333333;line-height:1.6;border-top:1px solid #E3E3E3;padding-top:14px;">' + (Esc $fr[2]) + '</div>' + "`n" +
     '</div>'
-  $c = Replace-Tarjeta $c '<h3>Frase del d' $cardFrase
+  $c = Replace-Tarjeta $c 'Frase del d' $cardFrase
   Write-Host ("frase actualizada: " + $fr[1])
 }
 
@@ -311,7 +311,7 @@ if ($personajes.Count -gt 0) {
     '<p style="font-size:14px;color:#333333;margin:0 0 10px;">' + (Esc $pj[2]) + '</p>' + "`n" +
     '<a href="' + (Esc $infoP.url) + '" target="_blank" rel="noopener" style="color:#66C96D;font-weight:600;">Conoce su historia ' + [char]0x2192 + '</a>' + "`n" +
     '</div>'
-  $c = Replace-Tarjeta $c '<h3>Personaje del d' $cardPj
+  $c = Replace-Tarjeta $c 'Personaje del d' $cardPj
   Write-Host ("personaje actualizado: " + $infoP.nombre)
 }
 
