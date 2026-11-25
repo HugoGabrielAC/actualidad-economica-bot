@@ -1,0 +1,37 @@
+name: Actualizar portada (refuerzo)
+
+on:
+  schedule:
+    - cron: "4,14,24,34,44,54 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Saltar si hubo actualizacion reciente
+        id: guard
+        shell: pwsh
+        run: |
+          $last = [int](git log -1 --format=%ct)
+          $now = [int][DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+          $diff = $now - $last
+          Write-Host "Ultimo commit hace $diff segundos"
+          if ($diff -lt 480) { "skip=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8 } else { "skip=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8 }
+      - name: Actualizar cotizaciones, fecha, pregunta, frase y personaje
+        if: steps.guard.outputs.skip == 'false'
+        env:
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: pwsh -NoProfile -ExecutionPolicy Bypass -File ./tools/actualizar_cotiz_hora.ps1
+      - name: Guardar estado
+        if: steps.guard.outputs.skip == 'false'
+        run: |
+          git config user.name "actualidad-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add web/portada/datos
+          git diff --cached --quiet || git commit -m "estado dolar y preguntas"
+          git push
