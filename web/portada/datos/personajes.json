@@ -1,10 +1,10 @@
 [
   {
-    "titulo": "Raúl Prebisch",
-    "nombre": "Raúl Prébisch",
-    "extracto": "Raúl Federico Prébisch Linares fue un político, académico y economista argentino, reconocido por sus aportes a la teoría estructuralista del desarrollo económico. En 1923 comenzó sus actividades como docente universitario y, como funcionario público, asesoró las políticas económicas de los gobiernos conservadores de la década de 1930, siendo Gerente General del Banco Central de la República Argentina, fundado en 1935. En 1947 ingresó a la Comisión Económica para América Latina, institución de la que fue secretario ejecutivo entre 1950 y 1963. Tras el derrocamiento del gobierno de Juan Domingo Perón, el presidente de facto Eduardo Lonardi le encargó la redacción de un informe preliminar sobre la situación económica argentina, en donde recomendó, entre otras, medidas de ajuste estructural y la inserción del país al Fondo Monetario Internacional. Tras su renuncia a la dirección de la Cepal asumió el cargo de secretario general de la Conferencia de las Naciones Unidas sobre Comercio y Desarrollo.",
-    "imagen": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Raul_Prebisch_%28cropped%29.tif/lossy-page1-330px-Raul_Prebisch_%28cropped%29.tif.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "url": "https://es.wikipedia.org/wiki/Ra%C3%BAl_Pr%C3%A9bisch"
+    "titulo": "Celso Furtado",
+    "nombre": "Celso Furtado",
+    "extracto": "Celso Monteiro Furtado fue uno de los economistas más influyentes en la historia brasileña y latinoamericana.",
+    "imagen": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Celso_Furtado.tif/lossy-page1-330px-Celso_Furtado.tif.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "url": "https://es.wikipedia.org/wiki/Celso_Furtado"
   },
   {
     "titulo": "Albert Hirschman",
@@ -12,5 +12,12 @@
     "extracto": "Albert Otto Hirschman fue un destacado economista y científico social, autor de varios libros sobre economía política. Estudió Economía en la London School of Economics, en la HEC Paris, en la Universidad de París y en la Universidad de Trieste.",
     "imagen": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Dostlertrial.jpg/330px-Dostlertrial.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
     "url": "https://es.wikipedia.org/wiki/Albert_O._Hirschman"
+  },
+  {
+    "titulo": "Raúl Prebisch",
+    "nombre": "Raúl Prébisch",
+    "extracto": "Raúl Federico Prébisch Linares fue un político, académico y economista argentino, reconocido por sus aportes a la teoría estructuralista del desarrollo económico. En 1923 comenzó sus actividades como docente universitario y, como funcionario público, asesoró las políticas económicas de los gobiernos conservadores de la década de 1930, siendo Gerente General del Banco Central de la República Argentina, fundado en 1935. En 1947 ingresó a la Comisión Económica para América Latina, institución de la que fue secretario ejecutivo entre 1950 y 1963. Tras el derrocamiento del gobierno de Juan Domingo Perón, el presidente de facto Eduardo Lonardi le encargó la redacción de un informe preliminar sobre la situación económica argentina, en donde recomendó, entre otras, medidas de ajuste estructural y la inserción del país al Fondo Monetario Internacional. Tras su renuncia a la dirección de la Cepal asumió el cargo de secretario general de la Conferencia de las Naciones Unidas sobre Comercio y Desarrollo.",
+    "imagen": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Raul_Prebisch_%28cropped%29.tif/lossy-page1-330px-Raul_Prebisch_%28cropped%29.tif.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "url": "https://es.wikipedia.org/wiki/Ra%C3%BAl_Pr%C3%A9bisch"
   }
 ]
