@@ -434,3 +434,8 @@ try {
   }
   if ($nImg -eq 0) { Write-Host "sin articulos pendientes de imagen" }
 } catch { Write-Host ("aviso imagen de respaldo: " + $_.Exception.Message) }
+# --- Peru en cifras (indicadores del BCRP) ---
+try {
+  $scriptCifras = Join-Path $PSScriptRoot "actualizar_peru_cifras.ps1"
+  if (Test-Path $scriptCifras) { & $scriptCifras }
+} catch { Write-Host ("peru cifras: " + $_.Exception.Message) }
