@@ -36,7 +36,13 @@ function Pill([double]$delta, [int]$dec, [string]$unidad, [bool]$bienArriba) {
   return '<span class="ae-pill ' + $clase + '">' + $flecha + ' ' + $signo + $delta.ToString("N" + $dec, $cultura) + ' ' + $unidad + '</span>'
 }
 function CambiarValor([string]$c, [string]$id, [string]$valor) {
-  return [regex]::Replace($c, '(<div class="ae-mercado-dato" id="ae-' + $id + '">)[^<]*(</div>)', ('${1}' + $valor + '${2}'))
+  return [regex]::Replace($c, '(<div class="ae-mercado-dato[^"]*" id="ae-' + $id + '">)[^<]*(</div>)', ('${1}' + $valor + '${2}'))
+}
+function CambiarValorFiscal([string]$c, [double]$v) {
+  $txt = (Fmt $v 1) + " %"
+  $clase = "ae-mercado-dato"
+  if ($v -lt 0) { $clase = "ae-mercado-dato neg" }
+  return [regex]::Replace($c, '<div class="ae-mercado-dato[^"]*" id="ae-fiscal">[^<]*</div>', ('<div class="' + $clase + '" id="ae-fiscal">' + $txt + '</div>'))
 }
 function CambiarPill([string]$c, [string]$id, [string]$pill) {
   return [regex]::Replace($c, '(<span id="ae-' + $id + '-var">)[\s\S]*?(</span>)', ('${1}' + $pill + '${2}'))
@@ -72,7 +78,7 @@ $c = CambiarValor $c "pbi" ((Fmt (Ult $pbi 1)[1] 1) + " %")
 $c = CambiarPill $c "pbi" (Pill ((Ult $pbi 1)[1] - (Ult $pbi 2)[1]) 1 "pp" $true)
 $c = CambiarValor $c "desempleo" ((Fmt (Ult $des 1)[1] 1) + " %")
 $c = CambiarPill $c "desempleo" (Pill ((Ult $des 1)[1] - (Ult $des 2)[1]) 1 "pp" $false)
-$c = CambiarValor $c "fiscal" ((Fmt (Ult $fis 1)[1] 1) + " %")
+$c = CambiarValorFiscal $c (Ult $fis 1)[1]
 $c = CambiarPill $c "fiscal" (Pill ((Ult $fis 1)[1] - (Ult $fis 2)[1]) 1 "pp" $true)
 
 $meses = @("enero","febrero","marzo","abril","mayo","junio","julio","agosto","setiembre","octubre","noviembre","diciembre")
